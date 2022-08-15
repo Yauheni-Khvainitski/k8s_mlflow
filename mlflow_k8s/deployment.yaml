@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow-local-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow-local-server # get for deployment all the pods that labeled mlflow-local-server
+  template:
+    metadata:
+      labels:
+        app: mlflow-local-server # label pod as mlflow-local-server, service also will look at this
+    spec:
+      containers:
+      - name: mlflow-local-server-cont
+        image: mlflow-local:v001
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "750m"
+        ports:
+        - containerPort: 5000
