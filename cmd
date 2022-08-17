@@ -22,6 +22,7 @@ kubectl port-forward mlflow-local-server-deployment-64979c4756-hf5dc 5000:5000
 
 # test service locally by port forwarding
 kubectl port-forward service/mlflow-service 5000:5000
+kubectl port-forward service/mlflow-chart 5000:5000
 
 # delete cluster
 kind delete cluster
