@@ -35,6 +35,23 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+aws_access:
+  access_key_id: "" #key
+  secret_access_key_id: "" #key
+
+default_artifact_root: "s3://mlflow-k8s-local/artifacts"
+
+db:
+  default:
+    enabled: false
+  ## type can be 'postgresql', 'mysql' or any other db type that can be used in a db_uri
+  type: postgresql
+  host: mlflow-rds-inst.cyr4nb3nsigd.eu-west-1.rds.amazonaws.com
+  port: 5432
+  user: mlflow_user
+  password: # pass
+  database: mlflow_db
+
 service:
   type: LoadBalancer
   port: 5000

@@ -28,6 +28,15 @@ spec:
             - name: http
               containerPort: 5000
               protocol: TCP
+          env:
+            - name: BACKEND_STORE_URI
+              value: "{{ .Values.db.type }}://{{ .Values.db.user }}:{{ .Values.db.password }}@{{ .Values.db.host }}:{{ .Values.db.port }}/{{ .Values.db.database }}"
+            - name: DEFAULT_ARTIFACT_ROOT
+              value: "{{ .Values.default_artifact_root }}"
+            - name: AWS_ACCESS_KEY_ID
+              value: "{{ .Values.aws_access.access_key_id }}"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "{{ .Values.aws_access.secret_access_key_id }}"
           livenessProbe:
             httpGet:
               path: /
