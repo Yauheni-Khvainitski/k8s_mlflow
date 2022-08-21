@@ -1,0 +1,8 @@
+1. How to create a gilab project (naming, etc.)
+2. How to build an image and where it should be pushed ?
+3. Create own S3 bucket
+4. Create IAM role to read-write from S3 
+5. Create RDS database for backend 
+6. How to provide usage of AWS creds
+7. How to provide database creds using vault
+8. How to get proper DNS configs
