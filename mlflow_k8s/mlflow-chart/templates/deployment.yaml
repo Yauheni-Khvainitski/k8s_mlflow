@@ -1,23 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mlflow.fullname" . }}
+  name: {{ .Chart.Name }}
+  namespace: {{ default .Release.Namespace .Values.namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+    severity: {{ .Values.responsible.severity }}
+    owner: {{ .Values.responsible.owner }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "mlflow.selectorLabels" . | nindent 6 }}
+      app: {{ .Chart.Name }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "mlflow.selectorLabels" . | nindent 8 }}
+        app: {{ .Chart.Name }}
+        severity: {{ .Values.responsible.severity }}
+        owner: {{ .Values.responsible.owner }}
+    {{- if .Values.podAnnotations }}
+      annotations:
+      {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+    {{- end }}
     spec:
+      restartPolicy: Always
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -37,24 +45,7 @@ spec:
               value: "{{ .Values.aws_access.access_key_id }}"
             - name: AWS_SECRET_ACCESS_KEY
               value: "{{ .Values.aws_access.secret_access_key_id }}"
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      # !!! change tolerations
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}

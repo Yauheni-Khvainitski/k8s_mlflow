@@ -12,7 +12,7 @@ kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 
 # debug pod (in case of failed pod deployment)
-kubectl describe pod mlflow-local-server-deployment-64979c4756-hf5dc
+kubectl describe pod mlflow-chart-76df7977cb-tzsws
 
 # register image to kind to be able to pull it
 kind load docker-image mlflow-local:v001

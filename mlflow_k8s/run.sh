@@ -10,10 +10,10 @@ kind load docker-image mlflow-local:v001
 echo loaded image to kind !!!
 
 echo deploying helm chart
-helm install mlflow-chart ./mlflow-chart
+helm install mlflow ./mlflow-chart
 echo deployed helm chart
 
-sleep 25
+sleep 10
 
-kubectl port-forward service/mlflow-chart 5000:5000
+kubectl port-forward service/mlflow-svc 5000:5000
 echo forwarded service port to 5000 on localhost !!!
